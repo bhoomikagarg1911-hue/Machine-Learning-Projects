@@ -1,0 +1,63 @@
+-- SQL CODE FOR LIBRARY MANAGEMENT SYSTEM --
+
+-- Create Database
+CREATE DATABASE library_db;
+
+-- Use Database
+USE library_db;
+
+-- Create Tables
+CREATE TABLE authors (
+    author_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE books (
+    book_id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(150) NOT NULL,
+    author_id INT,
+    quantity INT NOT NULL,
+    FOREIGN KEY (author_id) REFERENCES authors(author_id)
+);
+
+CREATE TABLE borrowers (
+    borrower_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    phone VARCHAR(15)
+);
+
+CREATE TABLE borrow_records (
+    record_id INT PRIMARY KEY AUTO_INCREMENT,
+    book_id INT,
+    borrower_id INT,
+    borrow_date DATE,
+    return_date DATE,
+    FOREIGN KEY (book_id) REFERENCES books(book_id),
+    FOREIGN KEY (borrower_id) REFERENCES borrowers(borrower_id)
+);
+
+-- Insert Data
+INSERT INTO authors (name) VALUES
+('J.K. Rowling'),
+('George Orwell'),
+('Chetan Bhagat');
+
+INSERT INTO books (title, author_id, quantity) VALUES
+('Harry Potter and the Sorcerer''s Stone',1,5),
+('1984',2,4),
+('Five Point Someone',3,6);
+
+INSERT INTO borrowers (name,email,phone) VALUES
+('Amit Sharma','amit@gmail.com','9876543210'),
+('Priya Mehta','priya@gmail.com','9123456780');
+
+INSERT INTO borrow_records (book_id, borrower_id, borrow_date, return_date) VALUES
+(1,1,'2024-06-01','2024-06-10'),
+(2,2,'2024-06-03','2024-06-12');
+
+-- Show Data
+SELECT * FROM authors;
+SELECT * FROM books;
+SELECT * FROM borrowers;
+SELECT * FROM borrow_records;
