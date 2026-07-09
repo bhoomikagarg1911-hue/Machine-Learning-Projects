@@ -1,0 +1,78 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import mysql.connector
+conn=mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="dca11",
+    database="details"
+    )
+
+
+if conn.is_connected():
+    print("connected successfully")
+    
+cursor=conn.cursor()
+query = """ SELECT STUDENT.STUDENT_ID,STUDENT.STUDENT_NAME, MARKS.PYTHON_MARKS,MARKS.ML_MARKS ,MARKS.SQL_MARKS FROM STUDENT INNER JOIN MARKS ON STUDENT.STUDENT_ID=MARKS.STUDENT_ID """
+
+df=pd.read_sql(query,conn)
+print("\nData:")
+print(df)
+
+print("Average Python Marks:",(df["PYTHON_MARKS"].mean()))
+print("Highest ML Marks:",(df["ML_MARKS"].max()))
+print("Lowest SQL Marks:",(df["SQL_MARKS"].min()))
+
+df["TOTAL"]=(df["PYTHON_MARKS"]+df["ML_MARKS"]+df["SQL_MARKS"])
+topper=df.loc[df["TOTAL"].idxmax()]
+
+print("Topper Name:",topper["STUDENT_NAME"])
+print("Topper Marks:",topper["TOTAL"])
+
+#PASS STUDENTS
+
+pass_in_python = (df[df["PYTHON_MARKS"]>=40])
+print("Pass Students In Python:")
+print(pass_in_python[["STUDENT_NAME","PYTHON_MARKS"]])
+
+pass_in_ml = (df[df["ML_MARKS"]>=40])
+print("Pass Students In ML:")
+print(pass_in_ml[["STUDENT_NAME","ML_MARKS"]])
+
+pass_in_sql = (df[df["SQL_MARKS"]>=40])
+print("Pass Students In SQL:")
+print(pass_in_sql[["STUDENT_NAME","SQL_MARKS"]])
+
+
+#FAIL STUDENTS
+
+fail_in_python = (df[df["PYTHON_MARKS"]<=40])
+print("Fail Students In Python:")
+print(fail_in_python[["STUDENT_NAME","PYTHON_MARKS"]])
+
+fail_in_ml = (df[df["ML_MARKS"]<=40])
+print("Fail Students In ML:")
+print(fail_in_ml[["STUDENT_NAME","ML_MARKS"]])
+
+fail_in_sql = (df[df["SQL_MARKS"]<=40])
+print("Fail Students In SQL:")
+print(fail_in_sql[["STUDENT_NAME","SQL_MARKS"]])
+
+#TOP 3 STUDENTS
+top3=df.sort_values(by="TOTAL",ascending=False).head(3)
+print("Top 3 Students;")
+print(top3[["STUDENT_NAME","TOTAL"]])
+
+
+plt.bar(df["STUDENT_NAME"],df["TOTAL"])
+plt.show()
+
+plt.plot(df["STUDENT_NAME"],df["TOTAL"])
+plt.show()
+
+plt.pie(df["TOTAL"])
+plt.show()
+
+    
+cursor.close()
+conn.close()
