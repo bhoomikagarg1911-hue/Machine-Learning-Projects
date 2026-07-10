@@ -1,0 +1,41 @@
+import turtle
+
+screen = turtle.Screen()
+screen.title("My Turtle Program")
+
+pen = turtle.Turtle()
+pen.forward(100)   # Move forward 100 pixels
+pen.backward(50)   # Move backward
+pen.left(45)       # Turn left 90 degrees
+pen.right(90) # Turn right 45 degrees
+
+
+
+pen.fillcolor("red")
+pen.begin_fill()
+
+for i in range(4):
+    pen.forward(100)
+    pen.right(90)
+
+pen.end_fill()
+
+turtle.done()
+
+
+
+pen = turtle.Turtle()
+
+
+pen.color("red")
+pen.pensize(5)
+
+pen.forward(150)
+
+turtle.done()
+
+
+
+pen.circle(50)
+
+turtle.done()
