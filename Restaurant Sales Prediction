@@ -1,0 +1,77 @@
+#Problem Statement: A Restaurant Owner wants to predict his daily sales based on the features such as Customers , Advertisiting Budget , Weekends
+
+
+#Collect Dataset
+features = {
+    'Customers' :[13,14,10,16,20,22,26,28,27,12,19,17,30,32,16],
+    'Advertising Budget' : [1000,1200,1300,1500,1700,1800,2000,2200,2400,2500,2600,2800,3000,35000,4000],
+    'Weekend' : [0,0,1,1,1,1,1,0,0,1,1,1,1,1,1],
+    'Daily Sales' : [20000,25000,15000,17000,16000,19000,21000,24000,28000,30000,32000,35000,50000,45000,40000]
+}
+
+
+#Importing Libraries
+import pandas as pd 
+import numpy as np 
+ 
+
+#Load Dataset
+df=pd.DataFrame(features)
+print(df)
+
+
+#Explore Dataset
+print(df.head())
+print(df.tail())
+print(df.shape)
+print(df.info())
+print(df["Customers"])
+print(df.sort_values("Advertising Budget"))
+print(df.sort_values("Daily Sales"))
+print(df["Daily Sales"].max())
+print(df["Daily Sales"].min())
+print(df["Daily Sales"].mean())
+print(df["Daily Sales"].sum())
+
+
+#Data Cleaning
+print(df.isnull())
+
+
+#Feature Selection
+X=df[['Customers','Advertising Budget','Weekend']]
+Y=df['Daily Sales']
+
+
+#Train_Test_Split
+from sklearn.model_selection import train_test_split
+X_train,X_test,Y_train,Y_test= train_test_split(
+    X,
+    Y,
+    test_size=0.2,
+    random_state=42
+    )
+
+
+#Model Selection
+from sklearn.linear_model import LinearRegression
+model=LinearRegression()
+
+
+#Model Training
+model.fit(X_train,Y_train)
+
+
+#Model Prediction
+prediction = model.predict([[10,1800,1]])
+print("Predicted Sales:",prediction)
+
+
+#Model Evaluation
+from sklearn.metrics import r2_score
+
+actual_sales = [20000,25000,15000,17000,16000,19000,21000,24000,28000,30000,32000,35000,50000,45000,40000]
+predicted_sales = [20000,28000,15000,18000,16000,19000,22000,24000,18000,30000,31000,35000,50000,46000,40000]
+
+score = r2_score(actual_sales,predicted_sales)
+print("r2 Score:",score)
