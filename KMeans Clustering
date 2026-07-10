@@ -1,0 +1,16 @@
+import pandas as pd
+from sklearn.cluster import KMeans
+data={
+    'Age':[20,25,30,45,50,55],
+    'Salary':[39344,43526,39892,56643,60151,54446,64446,57190,63219]
+}
+df=pd.DataFrame(data)
+X=df[['Age','Salary']]
+kmeans=KMeans(
+    n_clusters=2,
+    random_state=42
+)
+kmeans.fit(X)
+df['Cluster']=kmeans.labels_
+
+print(df)
