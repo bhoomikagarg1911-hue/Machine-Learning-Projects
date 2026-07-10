@@ -1,0 +1,23 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+data={
+    'Experience':[1,2,3,4,5],
+    'Salary':[15000,25000,40000,50000,75000]
+    }
+df=pd.DataFrame(data)
+X=df[['Experience']]
+Y=df['Salary']
+X_train,X_test,Y_train,Y_test=train_test_split(
+    X,
+    Y,
+    test_size=0.2,
+    random_state=42
+    )
+model=RandomForestRegressor(
+    n_estimators=100,
+    random_state=42
+)
+model.fit(X_train,Y_train)
+prediction=model.predict([[4.3]])
+print("Predicted Result",prediction)
